@@ -1,0 +1,61 @@
+name: Terraform Plan Pipeline 
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "infra/**"
+      - ".github/workflows/terraform-plan.yml"
+
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-west-2
+  AWS_ROLE_ARN: arn:aws:iam::583931059504:role/snipe-it-github-actions-role
+
+jobs:
+  terraform-plan:
+    name: Terraform Format, Validate, Lint and Plan
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: infra
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials with OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Terraform format check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Run TFLint
+        run: |
+          tflint --init
+          tflint --recursive
+
+      - name: Terraform plan
+        run: terraform plan
