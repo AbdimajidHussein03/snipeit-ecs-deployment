@@ -23,10 +23,6 @@ jobs:
     name: Terraform Format, Validate, Lint and Plan
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: infra
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,17 +41,22 @@ jobs:
 
       - name: Terraform format check
         run: terraform fmt -check -recursive
+        working-directory: infra
 
       - name: Terraform init
         run: terraform init
+        working-directory: infra
 
       - name: Terraform validate
         run: terraform validate
+        working-directory: infra
 
       - name: Run TFLint
         run: |
           tflint --init
           tflint --recursive
+        working-directory: infra
 
       - name: Terraform plan
         run: terraform plan
+        working-directory: infra
