@@ -44,9 +44,9 @@ jobs:
         working-directory: infra
 
       - name: Terraform plan destroy
-        run: terraform plan -destroy -lock-timeout=5m
+        run: terraform plan -destroy -lock-timeout=15m
         working-directory: infra
 
       - name: Terraform destroy
-        run: terraform destroy -auto-approve -lock-timeout=5m
+        run: terraform destroy -auto-approve -lock-timeout=15m
         working-directory: infra
