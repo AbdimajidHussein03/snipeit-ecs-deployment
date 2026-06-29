@@ -43,6 +43,20 @@ jobs:
         run: terraform init
         working-directory: infra
 
+      - name: Check for stale Terraform lock
+        run: |
+          set -e
+          LOCK_FILE="ecs-project/terraform.tfstate.tflock"
+          if aws s3 ls "s3://snipe-it-terraform-state-583931059504/$LOCK_FILE" >/dev/null 2>&1; then
+            aws s3 cp "s3://snipe-it-terraform-state-583931059504/$LOCK_FILE" ./terraform.tfstate.tflock || true
+            if [ -s ./terraform.tfstate.tflock ]; then
+              LOCK_ID=$(python3 -c 'import json; print(json.load(open(""terraform.tfstate.tflock""))["ID"])')
+              echo "Found stale lock ID: $LOCK_ID"
+              terraform force-unlock -force "$LOCK_ID" || true
+            fi
+          fi
+        working-directory: infra
+
       - name: Terraform plan destroy
         run: terraform plan -destroy -lock-timeout=15m
         working-directory: infra
