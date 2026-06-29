@@ -50,7 +50,7 @@ jobs:
           if aws s3 ls "s3://snipe-it-terraform-state-583931059504/$LOCK_FILE" >/dev/null 2>&1; then
             aws s3 cp "s3://snipe-it-terraform-state-583931059504/$LOCK_FILE" ./terraform.tfstate.tflock || true
             if [ -s ./terraform.tfstate.tflock ]; then
-              LOCK_ID=$(python3 -c 'import json; print(json.load(open(""terraform.tfstate.tflock""))["ID"])')
+              LOCK_ID=$(python3 -c 'import json; print(json.load(open("terraform.tfstate.tflock"))["ID"])')
               echo "Found stale lock ID: $LOCK_ID"
               terraform force-unlock -force "$LOCK_ID" || true
             fi
