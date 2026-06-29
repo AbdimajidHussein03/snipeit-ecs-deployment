@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "app" {
   name         = "${var.project_name}-app"
-  force_delete = true
+  force_delete = var.force_delete
 
   image_tag_mutability = "MUTABLE"
 
