@@ -28,3 +28,4 @@ override.tf.json
 # OS / editor files
 .DS_Store
 .vscode/
+infra/terraform.tfvars
