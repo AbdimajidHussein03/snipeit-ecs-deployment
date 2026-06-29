@@ -33,3 +33,9 @@ variable "app_key" {
   type        = string
   sensitive   = true
 }
+
+variable "ecr_force_delete" {
+  description = "Force delete ECR repository during destroy"
+  type        = bool
+  default     = false
+}

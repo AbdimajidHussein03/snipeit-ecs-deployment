@@ -24,6 +24,7 @@ module "ecr" {
   source = "./modules/ecr"
 
   project_name = var.project_name
+  force_delete = var.ecr_force_delete
 }
 
 module "rds" {
@@ -86,11 +87,4 @@ resource "aws_route53_record" "app" {
     zone_id                = module.alb.alb_zone_id
     evaluate_target_health = true
   }
-}
-
-module "iam" {
-  source = "./modules/iam"
-
-  project_name = var.project_name
-  github_repo  = "AbdimajidHussein03/ecs-project"
 }
