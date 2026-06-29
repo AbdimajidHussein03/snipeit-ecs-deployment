@@ -35,3 +35,10 @@ resource "aws_s3_bucket_public_access_block" "terraform_state" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+module "iam" {
+  source = "./iam"
+
+  project_name = "snipe-it"
+  github_repo  = "AbdimajidHussein03/ecs-project"
+}
