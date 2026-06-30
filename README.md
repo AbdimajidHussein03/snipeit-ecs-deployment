@@ -537,3 +537,278 @@ This follows Terraform best practices for production environments.
 The backend configuration is defined within the infrastructure configuration and automatically used by every Terraform workflow.
 
 > 📸 **Apply Screenshot:** S3 Backend (Optional)
+
+
+# Continuous Integration & Continuous Deployment (CI/CD)
+
+One of the main objectives of this project was to automate both the application deployment and the infrastructure lifecycle using GitHub Actions.
+
+Rather than manually building Docker images or running Terraform commands locally, dedicated GitHub Actions workflows were created to automate each stage of the deployment process.
+
+The project consists of four independent pipelines:
+
+- Application Pipeline
+- Terraform Plan Pipeline
+- Terraform Deploy Pipeline
+- Terraform Destroy Pipeline
+
+Separating each workflow keeps responsibilities isolated, improves maintainability and reflects how infrastructure is commonly managed within production environments.
+
+---
+
+# CI/CD Workflow
+
+The overall deployment workflow is shown below.
+
+```
+Developer
+    │
+    ▼
+Push Code to GitHub
+    │
+    ▼
+GitHub Actions
+    │
+    ├──────────────► Application Pipeline
+    │                     │
+    │                     ▼
+    │               Build Docker Image
+    │                     │
+    │                     ▼
+    │               Push Image to Amazon ECR
+    │
+    ▼
+Terraform Plan Pipeline
+    │
+    ▼
+Validate Infrastructure
+    │
+    ▼
+Terraform Deploy Pipeline
+    │
+    ▼
+Provision AWS Infrastructure
+    │
+    ▼
+Amazon ECS Fargate
+    │
+    ▼
+Application Load Balancer
+    │
+    ▼
+HTTPS (ACM)
+    │
+    ▼
+https://tm.abdimajidcloud.com
+```
+
+---
+
+# Application Pipeline
+
+The Application Pipeline is responsible for building the Docker image and publishing it to Amazon Elastic Container Registry (ECR).
+
+Whenever changes are pushed to the application, GitHub Actions automatically:
+
+- Checks out the repository
+- Authenticates with AWS using OpenID Connect (OIDC)
+- Logs into Amazon ECR
+- Builds the Docker image
+- Tags the image
+- Pushes the image into Amazon ECR
+
+By automating this process, the application image remains version controlled and deployment-ready without requiring any manual interaction.
+
+This workflow forms the Continuous Integration (CI) portion of the project.
+
+### Pipeline Summary
+
+✔ Checkout Repository
+
+✔ Configure AWS Credentials
+
+✔ Authenticate with Amazon ECR
+
+✔ Build Docker Image
+
+✔ Push Docker Image
+
+✔ Pipeline Completed Successfully
+
+> 📸 **Apply Screenshot:** Application Pipeline (Successful Build)
+
+---
+
+# Terraform Plan Pipeline
+
+Before deploying infrastructure, Terraform performs a validation stage.
+
+This pipeline ensures infrastructure changes are reviewed before deployment and helps identify syntax errors or configuration issues early.
+
+The workflow performs:
+
+- Terraform Format Check
+- Terraform Initialisation
+- Terraform Validation
+- Terraform Plan
+
+Running a Terraform plan before deployment follows Infrastructure as Code best practices by previewing proposed infrastructure changes before any AWS resources are modified.
+
+### Pipeline Summary
+
+✔ Terraform fmt
+
+✔ Terraform init
+
+✔ Terraform validate
+
+✔ Terraform plan
+
+✔ Infrastructure validated successfully
+
+> 📸 **Apply Screenshot:** Terraform Plan Pipeline
+
+---
+
+# Terraform Deploy Pipeline
+
+Once the infrastructure has been validated, the Terraform Deploy Pipeline provisions the AWS environment.
+
+The workflow authenticates with AWS using GitHub OIDC before running Terraform Apply.
+
+Terraform automatically creates:
+
+- Amazon VPC
+- Public Subnets
+- Security Groups
+- Amazon ECS Cluster
+- ECS Service
+- ECS Task Definition
+- Amazon ECR Repository
+- Application Load Balancer
+- HTTPS Listener
+- Target Groups
+- Amazon RDS Database
+- AWS Certificate Manager Certificate
+- Route53 DNS Records
+
+After deployment completes successfully, the ECS service automatically pulls the latest Docker image from Amazon ECR before starting the application.
+
+The result is a fully deployed containerised application available over HTTPS.
+
+### Pipeline Summary
+
+✔ Authenticate using GitHub OIDC
+
+✔ Terraform Init
+
+✔ Terraform Apply
+
+✔ Infrastructure Created
+
+✔ ECS Service Started
+
+✔ HTTPS Application Available
+
+> 📸 **Apply Screenshot:** Terraform Deploy Pipeline
+
+---
+
+# Terraform Destroy Pipeline
+
+Infrastructure should be just as easy to remove as it is to create.
+
+A dedicated Terraform Destroy Pipeline was implemented to automate the teardown process.
+
+Running the workflow removes every Terraform-managed resource, ensuring infrastructure can be recreated cleanly whenever required.
+
+During development this workflow was extremely useful for:
+
+- Testing Terraform modules
+- Reducing AWS costs
+- Validating Infrastructure as Code
+- Rebuilding the environment from scratch
+
+One challenge encountered during development involved deleting the Amazon ECR repository.
+
+Because ECR repositories cannot normally be deleted while containing Docker images, the destroy process initially failed.
+
+After investigating the issue, the repository configuration was updated to support forced deletion during Terraform destroy operations, allowing the pipeline to remove the remaining infrastructure successfully.
+
+This highlighted the importance of understanding resource dependencies when designing Infrastructure as Code.
+
+### Pipeline Summary
+
+✔ Authenticate using GitHub OIDC
+
+✔ Terraform Init
+
+✔ Terraform Destroy
+
+✔ Infrastructure Removed Successfully
+
+> 📸 **Apply Screenshot:** Terraform Destroy Pipeline
+
+---
+
+# Deployment Process
+
+The deployment process follows a repeatable workflow from development through to production.
+
+1. Application source code is committed to GitHub.
+
+2. GitHub Actions automatically builds the Docker image.
+
+3. The Docker image is pushed into Amazon Elastic Container Registry.
+
+4. Terraform validates the infrastructure configuration.
+
+5. Terraform provisions the AWS infrastructure.
+
+6. ECS retrieves the latest Docker image from Amazon ECR.
+
+7. The Application Load Balancer routes incoming HTTPS requests to ECS.
+
+8. Users access the application securely using the custom domain.
+
+The entire deployment process can therefore be repeated consistently without manually creating AWS resources.
+
+---
+
+# Live Application
+
+Once deployment completed successfully, the application became publicly accessible using HTTPS through the custom Route53 domain.
+
+The deployment includes:
+
+- HTTPS Encryption
+- AWS Certificate Manager
+- Route53 DNS
+- Application Load Balancer
+- Amazon ECS Fargate
+- Amazon RDS
+
+Application URL:
+
+```
+https://tm.abdimajidcloud.com
+```
+
+> 📸 **Apply Screenshot:** Live Snipe-IT Application
+
+---
+
+# Pipeline Evidence
+
+The screenshots below demonstrate successful execution of each workflow.
+
+| Pipeline | Status |
+|----------|--------|
+| Application Build & Push | ✅ Successful |
+| Terraform Plan | ✅ Successful |
+| Terraform Deploy | ✅ Successful |
+| Terraform Destroy | ✅ Successful |
+
+Each workflow completed successfully and formed part of the final deployment process.
+
+> 📸 **Apply Screenshot:** GitHub Actions Workflow Overview
