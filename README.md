@@ -80,7 +80,9 @@ Below is the deployed Snipe-IT dashboard.
 
 ## Live Application
 
-![Snipe-IT Dashboard](docs/images/live-dashboard.png)
+![Snipe-IT Dashboard]<img width="1872" height="1107" alt="Screenshot 2026-06-30 191241" src="https://github.com/user-attachments/assets/475da5df-e21f-436b-b27c-c2bc9f727184" />
+
+
 
 
 # Architecture
