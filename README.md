@@ -55,6 +55,30 @@ It demonstrates the interaction between Route53, ACM, the Application Load Balan
 
 ---
 
+# Live Application
+
+Once deployment completed successfully, the application became publicly accessible using HTTPS through the custom Route53 domain.
+
+The deployment includes:
+
+- HTTPS Encryption
+- AWS Certificate Manager
+- Route53 DNS
+- Application Load Balancer
+- Amazon ECS Fargate
+- Amazon RDS
+
+Application URL:
+
+```
+https://tm.abdimajidcloud.com
+```
+
+<img width="1872" height="1107" alt="Screenshot 2026-06-30 191241" src="https://github.com/user-attachments/assets/85bfdae3-6154-4842-b635-41c6632746f9" />
+
+
+---
+
 # Repository Structure
 
 The repository has been organised to separate the application, infrastructure, bootstrap resources and automation workflows into clear, reusable components.
