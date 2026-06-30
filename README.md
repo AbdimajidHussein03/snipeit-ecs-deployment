@@ -1,105 +1,243 @@
-# Snipe-IT on AWS ECS using Terraform & GitHub Actions
+# Snipe-IT Asset Management Platform on AWS
 
-![Terraform](https://img.shields.io/badge/Terraform-IaC-623CE4?style=for-the-badge&logo=terraform)
-![AWS](https://img.shields.io/badge/AWS-ECS%20Fargate-FF9900?style=for-the-badge&logo=amazonaws)
-![Docker](https://img.shields.io/badge/Docker-Containerised-2496ED?style=for-the-badge&logo=docker)
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=for-the-badge&logo=githubactions)
-![Route53](https://img.shields.io/badge/HTTPS-Enabled-success?style=for-the-badge)
+> A production-style DevOps project demonstrating how a containerised Snipe-IT application can be deployed to AWS using Docker, Terraform, Amazon ECS (Fargate) and GitHub Actions.
+
+---
+
+## Table of Contents
+
+- Project Overview
+- Project Objectives
+- Features
+- Technologies Used
+- AWS Services
+- Architecture Overview
+- Architecture Diagram
+- Repository Structure
+- Local Development
+- ClickOps Phase
+- Infrastructure as Code
+- Bootstrap Infrastructure
+- Terraform Modules
+- CI/CD Pipelines
+- Live Application
+- Security
+- Challenges & Lessons Learned
+- Future Improvements
+- Conclusion
 
 ---
 
 # Project Overview
 
-This project demonstrates how a production-style application can be deployed on AWS using Infrastructure as Code and modern DevOps practices.
+This project demonstrates a complete end-to-end deployment of the open-source **Snipe-IT Asset Management System** onto Amazon Web Services using modern DevOps practices.
 
-Instead of deploying infrastructure manually through the AWS Console, the entire environment is provisioned using **Terraform**, allowing every AWS resource to be recreated consistently and automatically.
+Rather than simply deploying an application manually, the primary objective was to build a production-style deployment pipeline that automates both the application delivery process and the infrastructure provisioning process.
 
-The application chosen for this project is **Snipe-IT**, an open-source IT asset management platform. The application is containerised with Docker, stored in Amazon Elastic Container Registry (ECR), and deployed onto Amazon ECS Fargate behind an Application Load Balancer secured with HTTPS using AWS Certificate Manager.
+The application is containerised using Docker before being pushed into **Amazon Elastic Container Registry (ECR)**.
 
-Deployment is fully automated through GitHub Actions using OpenID Connect (OIDC), removing the need to store long-lived AWS credentials inside GitHub.
+Infrastructure is managed entirely using **Terraform**, allowing every AWS resource to be recreated consistently and repeatedly through Infrastructure as Code.
 
-The project follows modern cloud engineering practices including:
+Deployment is fully automated using **GitHub Actions**, which build the Docker image, provision AWS infrastructure, deploy the application to Amazon ECS, and securely expose the application over HTTPS using an Application Load Balancer and AWS Certificate Manager.
 
-- Infrastructure as Code (Terraform)
-- Modular Terraform design
-- Containerised application deployment
-- ECS Fargate orchestration
-- HTTPS with ACM
-- Route53 DNS management
-- Remote Terraform state in Amazon S3
-- CI/CD pipelines using GitHub Actions
-- Automatic Docker image deployment to Amazon ECR
-- Automated infrastructure deployment and destruction
+The project follows real-world DevOps practices by implementing:
 
-The result is a repeatable deployment process capable of recreating the complete environment from source code.
+- Infrastructure as Code
+- Modular Terraform architecture
+- Remote Terraform state
+- GitHub OIDC authentication
+- Continuous Integration
+- Continuous Deployment
+- HTTPS encryption
+- Custom domain
+- Reusable Terraform modules
 
-# Why Snipe-IT?
+---
 
-Rather than building a simple "Hello World" application, I wanted to deploy a real-world open-source application that reflects how containerised workloads are commonly deployed in industry.
+# Project Objectives
 
-Snipe-IT is a widely used IT asset management system that enables organisations to track:
+The primary objectives of this project were:
 
-- IT Assets
-- Accessories
-- Components
-- Software Licences
-- Users
-- Consumables
+- Deploy an open-source application using Docker
+- Build custom Terraform modules for AWS infrastructure
+- Automate infrastructure deployment
+- Automate application deployment
+- Implement GitHub Actions CI/CD pipelines
+- Configure a secure HTTPS endpoint
+- Use a custom Route53 domain
+- Store Terraform state remotely
+- Authenticate GitHub securely using OpenID Connect (OIDC)
+- Structure the project following production-style DevOps practices
 
-Deploying a production-ready Laravel application introduced several realistic infrastructure requirements including:
+---
 
-- Persistent database connectivity
-- HTTPS termination
-- Load balancing
-- Container image management
-- DNS configuration
-- Secure networking
-- Infrastructure automation
+# Features
 
-This made it an excellent project for demonstrating practical AWS and Terraform skills.
+✔ Dockerised Snipe-IT application
 
-# Live Application
+✔ Amazon ECS (Fargate)
 
-Once deployed, the application is available securely over HTTPS.
+✔ Amazon Elastic Container Registry (ECR)
 
-**Application URL**
+✔ Application Load Balancer
 
-```
-https://tm.abdimajidcloud.com
-```
+✔ HTTPS using AWS Certificate Manager
 
-The deployment uses:
+✔ Route53 custom domain
 
-- Amazon Route53
-- AWS Certificate Manager
-- HTTPS
-- Application Load Balancer
-- Amazon ECS Fargate
+✔ Terraform Infrastructure as Code
 
-Below is the deployed Snipe-IT dashboard.
+✔ Reusable Terraform modules
 
-## Live Application
+✔ Remote Terraform backend
 
-<img width="1872" height="1107" alt="Screenshot 2026-06-30 191241" src="https://github.com/user-attachments/assets/475da5df-e21f-436b-b27c-c2bc9f727184" />
+✔ Terraform state locking
 
+✔ GitHub Actions automation
 
+✔ OIDC authentication
 
+✔ Automated Docker builds
 
-# Architecture
+✔ Automated Terraform deployment
 
-The infrastructure follows a highly available AWS architecture.
+✔ Automated Terraform destruction
 
-Users access the application over HTTPS using a custom domain managed by Amazon Route53.
+---
 
-Traffic is terminated at an Application Load Balancer where the TLS certificate issued by AWS Certificate Manager is attached.
+# Technologies Used
 
-The load balancer forwards requests to containerised Snipe-IT tasks running on Amazon ECS Fargate inside private subnets.
+| Technology | Purpose |
+|------------|---------|
+| Docker | Containerisation |
+| GitHub Actions | CI/CD |
+| Terraform | Infrastructure as Code |
+| AWS ECS (Fargate) | Container orchestration |
+| Amazon ECR | Container image registry |
+| Route53 | DNS |
+| ACM | SSL/TLS Certificates |
+| Application Load Balancer | Traffic distribution |
+| Amazon RDS | Database |
+| Amazon S3 | Terraform backend |
+| IAM | Permissions |
+| Git | Version Control |
+| GitHub | Repository Hosting |
 
-The application communicates securely with an Amazon RDS MySQL database.
+---
 
-Terraform provisions every AWS resource required to build this environment.
+# AWS Services Used
 
-## Architecture Diagram
+This project combines several AWS services that work together to provide a secure, scalable and automated deployment.
 
-<img width="1302" height="697" alt="Screenshot 2026-06-30 194558" src="https://github.com/user-attachments/assets/fa0dc332-6aa4-49f3-a27c-f96b058dc57f" />
+## Amazon ECS (Fargate)
 
+Amazon ECS is responsible for running the Snipe-IT container.
+
+Rather than managing EC2 instances manually, the project uses the **Fargate launch type**, allowing AWS to manage the underlying infrastructure while only requiring the container configuration.
+
+This significantly reduces operational overhead and makes deployments much simpler.
+
+---
+
+## Amazon Elastic Container Registry (ECR)
+
+Amazon ECR stores the Docker images built by the GitHub Actions application pipeline.
+
+Whenever code is pushed to GitHub, a new Docker image is automatically built and pushed into ECR.
+
+Amazon ECS then pulls the latest image directly from ECR during deployment.
+
+---
+
+## Application Load Balancer
+
+The Application Load Balancer acts as the public entry point to the application.
+
+Its responsibilities include:
+
+- Accepting HTTPS traffic
+- Terminating SSL
+- Forwarding requests to ECS
+- Performing health checks
+- Distributing traffic across ECS tasks
+
+---
+
+## AWS Certificate Manager (ACM)
+
+AWS Certificate Manager automatically provisions and manages the TLS certificate used by the Application Load Balancer.
+
+Terraform also automates the certificate validation process using Route53 DNS validation records.
+
+This removes the need to manually manage SSL certificates.
+
+---
+
+## Amazon Route53
+
+Route53 provides DNS management for the application.
+
+Terraform automatically creates:
+
+- Hosted Zone records
+- Certificate validation records
+- ALB Alias Record
+
+allowing the application to be accessed through the custom domain over HTTPS.
+
+---
+
+## Amazon RDS
+
+Amazon RDS provides a managed MySQL database for Snipe-IT.
+
+Running the database separately from the application ensures persistent storage while allowing ECS tasks to remain stateless.
+
+---
+
+## Amazon S3
+
+An S3 bucket is used as the remote Terraform backend.
+
+This stores the Terraform state securely outside the local machine and enables consistent infrastructure management across environments.
+
+---
+
+## AWS IAM
+
+IAM manages permissions throughout the project.
+
+It is responsible for:
+
+- GitHub OIDC Role
+- ECS Task Execution Role
+- ECS Task Role
+- Terraform Deployment Permissions
+
+Following the principle of least privilege helps improve the overall security of the deployment.
+
+---
+
+# Architecture Overview
+
+The deployment follows a layered AWS architecture.
+
+Users access the application through a custom Route53 domain secured with HTTPS.
+
+Requests are forwarded to an Application Load Balancer, which distributes traffic to ECS Fargate tasks running the Snipe-IT application inside private subnets.
+
+The application communicates securely with an Amazon RDS MySQL database located in isolated database subnets.
+
+Container images are pulled from Amazon Elastic Container Registry, while Terraform stores its remote state inside Amazon S3.
+
+The entire infrastructure is deployed automatically using reusable Terraform modules and GitHub Actions pipelines.
+
+---
+
+# Architecture Diagram
+
+> 📸 **Apply Screenshot:** `diagram.png`
+
+The following diagram illustrates the complete AWS architecture used throughout this project.
+
+It demonstrates the interaction between Route53, ACM, the Application Load Balancer, ECS Fargate, Amazon RDS, Terraform, and GitHub Actions.
