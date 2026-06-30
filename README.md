@@ -690,7 +690,9 @@ This workflow forms the Continuous Integration (CI) portion of the project.
 
 ✔ Pipeline Completed Successfully
 
-> 📸 **Apply Screenshot:** Application Pipeline (Successful Build)
+<img width="1912" height="1073" alt="Screenshot 2026-06-30 191625" src="https://github.com/user-attachments/assets/89355233-b640-47c7-bf72-3c52798c3bfc" />
+<img width="1872" height="1057" alt="Screenshot 2026-06-30 191321" src="https://github.com/user-attachments/assets/ecbcd656-4ceb-4ce9-ae56-e185ff647b07" />
+
 
 ---
 
@@ -721,7 +723,11 @@ Running a Terraform plan before deployment follows Infrastructure as Code best p
 
 ✔ Infrastructure validated successfully
 
-> 📸 **Apply Screenshot:** Terraform Plan Pipeline
+<img width="1902" height="1115" alt="Screenshot 2026-06-30 191710" src="https://github.com/user-attachments/assets/2e67fcc2-e000-43f3-b207-f7ed6c36dd83" />
+<img width="1872" height="1057" alt="Screenshot 2026-06-30 191321" src="https://github.com/user-attachments/assets/e9a3ada6-1b9b-46b3-81fd-8527fdad9400" />
+<img width="1912" height="1073" alt="Screenshot 2026-06-30 191625" src="https://github.com/user-attachments/assets/ad519eb6-f8de-4649-9aec-106dc5a9e2c8" />
+<img width="1912" height="1095" alt="Screenshot 2026-06-30 191459" src="https://github.com/user-attachments/assets/dccde4c5-3452-4f70-a6d4-c0b2afe3582c" />
+
 
 ---
 
@@ -765,7 +771,8 @@ The result is a fully deployed containerised application available over HTTPS.
 
 ✔ HTTPS Application Available
 
-> 📸 **Apply Screenshot:** Terraform Deploy Pipeline
+<img width="1912" height="1073" alt="Screenshot 2026-06-30 191625" src="https://github.com/user-attachments/assets/36ea8a91-799b-48e3-af45-0767aa50d943" />
+
 
 ---
 
@@ -802,7 +809,7 @@ This highlighted the importance of understanding resource dependencies when desi
 
 ✔ Infrastructure Removed Successfully
 
-> 📸 **Apply Screenshot:** Terraform Destroy Pipeline
+<img width="1891" height="892" alt="Terraform destroy pipeline" src="https://github.com/user-attachments/assets/2febb6a2-2c4b-4762-9392-886cc1aa8be2" />
 
 ---
 
@@ -830,28 +837,6 @@ The entire deployment process can therefore be repeated consistently without man
 
 ---
 
-# Live Application
-
-Once deployment completed successfully, the application became publicly accessible using HTTPS through the custom Route53 domain.
-
-The deployment includes:
-
-- HTTPS Encryption
-- AWS Certificate Manager
-- Route53 DNS
-- Application Load Balancer
-- Amazon ECS Fargate
-- Amazon RDS
-
-Application URL:
-
-```
-https://tm.abdimajidcloud.com
-```
-
-> 📸 **Apply Screenshot:** Live Snipe-IT Application
-
----
 
 # Pipeline Evidence
 
@@ -981,15 +966,6 @@ Learning how GitHub exchanges identity tokens with AWS instead of using static c
 
 Although configuring the trust policies took time, the final implementation is significantly more secure than relying on long-lived access keys.
 
----
-
-## HTTPS & DNS Configuration
-
-Provisioning HTTPS automatically using AWS Certificate Manager initially appeared straightforward but required understanding how ACM validates ownership of a domain.
-
-Terraform was configured to automatically create the required Route53 validation records, allowing certificates to be issued without manual intervention.
-
-Understanding the relationship between Route53, ACM and the Application Load Balancer was one of the most valuable networking lessons from this project.
 
 ---
 
@@ -1058,19 +1034,6 @@ allowing the application to automatically respond to increased demand.
 
 ---
 
-## AWS CloudWatch Alarms
-
-Create CloudWatch alarms for:
-
-- High CPU usage
-- High memory usage
-- ECS task failures
-- Application Load Balancer health
-- RDS metrics
-
-This would improve operational monitoring and incident response.
-
----
 
 ## AWS WAF
 
@@ -1088,43 +1051,6 @@ Integrate AWS Web Application Firewall to provide protection against common web-
 Currently, sensitive application configuration is supplied through Terraform variables.
 
 A future improvement would be migrating these secrets into AWS Secrets Manager, allowing ECS to retrieve secrets securely at runtime.
-
----
-
-## Infrastructure Testing
-
-Introduce additional automated validation including:
-
-- Terratest
-- InSpec
-- End-to-end deployment testing
-
-to further improve deployment confidence.
-
----
-
-## Multi-Environment Deployments
-
-Extend the project to support:
-
-- Development
-- Staging
-- Production
-
-using reusable Terraform modules with environment-specific variables.
-
----
-
-## Monitoring Dashboard
-
-Create CloudWatch dashboards to visualise:
-
-- ECS Service health
-- Application availability
-- ALB metrics
-- Database metrics
-
-providing a central operational dashboard.
 
 ---
 
