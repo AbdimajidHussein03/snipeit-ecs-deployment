@@ -75,7 +75,8 @@ Application URL:
 https://tm.abdimajidcloud.com
 ```
 
-<img width="1910" height="1072" alt="snipe-it-dashboard-https" src="https://github.com/user-attachments/assets/068293e6-49dc-4b5a-8ab9-095fcb9d843c" />
+<img width="1817" height="1023" alt="Screenshot 2026-06-30 204008" src="https://github.com/user-attachments/assets/cafda7eb-75b4-48fd-96aa-0d3597e559a3" />
+
 
 
 
