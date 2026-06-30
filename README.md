@@ -1104,34 +1104,4 @@ providing a central operational dashboard.
 
 ---
 
-# Conclusion
-
-This project demonstrates how modern DevOps practices can be used to deploy and manage a production-style application on AWS.
-
-Starting from a manual ClickOps deployment and progressing towards a fully automated Infrastructure as Code solution provided valuable practical experience across cloud infrastructure, containerisation and CI/CD automation.
-
-Through Terraform, Docker and GitHub Actions, the deployment process has become repeatable, consistent and significantly easier to manage.
-
-More importantly, the project strengthened my understanding of AWS networking, Infrastructure as Code, container orchestration and deployment automation while highlighting the importance of security, modular design and maintainable infrastructure.
-
-Although there are many possible future enhancements, the current implementation successfully delivers a complete end-to-end deployment pipeline capable of provisioning, deploying and destroying the entire application environment through code.
-
----
-
-# Author
-
-**Abdimajid Hussein**
-
-BSc Computer Science | Aspiring Cloud & DevOps Engineer
-
-GitHub: https://github.com/AbdimajidHussein03
-
-LinkedIn: *(Add your LinkedIn profile here)*
-
----
-
-## Acknowledgements
-
-This project was completed as part of my continued journey into Cloud Engineering, DevOps and Infrastructure as Code.
-
-The goal was not only to build a working AWS deployment, but also to gain a deeper understanding of how modern cloud-native applications are deployed, automated and managed using industry-standard tools.
+.
