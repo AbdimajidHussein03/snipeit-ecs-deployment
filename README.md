@@ -241,3 +241,299 @@ The entire infrastructure is deployed automatically using reusable Terraform mod
 The following diagram illustrates the complete AWS architecture used throughout this project.
 
 It demonstrates the interaction between Route53, ACM, the Application Load Balancer, ECS Fargate, Amazon RDS, Terraform, and GitHub Actions.
+
+# Repository Structure
+
+The repository has been organised to separate the application, infrastructure, bootstrap resources and automation workflows into clear, reusable components.
+
+```text
+ecs-project/
+│
+├── .github/
+│   └── workflows/
+│       ├── build-push.yml
+│       ├── terraform-plan.yml
+│       ├── terraform-deploy.yml
+│       └── terraform-destroy.yml
+│
+├── app/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── Snipe-IT source code
+│
+├── bootstrap/
+│   └── iam/
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── outputs.tf
+│       └── versions.tf
+│
+├── infra/
+│   ├── modules/
+│   │   ├── acm/
+│   │   ├── alb/
+│   │   ├── ecr/
+│   │   ├── ecs/
+│   │   ├── rds/
+│   │   ├── security/
+│   │   └── vpc/
+│   │
+│   ├── backend.tf
+│   ├── provider.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── main.tf
+│
+├── README.md
+├── .gitignore
+├── .dockerignore
+└── .tflint.hcl
+```
+
+The project follows a modular layout to keep responsibilities separated. Application code, Terraform infrastructure, bootstrap resources and CI/CD workflows each have their own dedicated location within the repository, making the project easier to understand and maintain.
+
+---
+
+# Local Development
+
+Before deploying the application to AWS, Snipe-IT was first built and tested locally using Docker Desktop.
+
+Running the application locally ensured that the Docker image functioned correctly before introducing cloud infrastructure, networking and deployment automation.
+
+Testing locally also made it easier to troubleshoot application-specific issues independently from AWS resources.
+
+## Prerequisites
+
+The following software was installed before beginning the project:
+
+- Docker Desktop
+- Git
+- Terraform
+- AWS CLI
+- Visual Studio Code
+- GitHub Account
+- AWS Account
+
+---
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/AbdimajidHussein03/ecs-project.git
+
+cd ecs-project
+```
+
+---
+
+## Build the Docker Image
+
+Navigate into the application directory and build the custom Docker image.
+
+```bash
+docker build -t snipe-it .
+```
+
+---
+
+## Run the Application
+
+Start the application locally using Docker.
+
+```bash
+docker compose up -d
+```
+
+Verify the running containers.
+
+```bash
+docker ps
+```
+
+The application should now be available locally.
+
+---
+
+# Running the Application Locally
+
+Before any AWS infrastructure was created, the application was successfully tested in a local Docker environment.
+
+This stage confirmed that:
+
+- Dockerfile built successfully
+- Containers started correctly
+- Application dependencies were installed
+- Database connectivity worked
+- Snipe-IT loaded successfully in the browser
+
+Testing locally significantly reduced troubleshooting later during the AWS deployment.
+
+> 📸 **Apply Screenshot:** Local Snipe-IT running in Docker
+
+---
+
+# ClickOps Phase
+
+Before automating the infrastructure with Terraform and GitHub Actions, the application was first deployed manually using the AWS Management Console.
+
+Although the final solution uses Infrastructure as Code, manually configuring the services helped build an understanding of how the different AWS components interact before recreating them programmatically.
+
+The manual deployment included configuring:
+
+- Amazon ECS Cluster
+- ECS Task Definition
+- ECS Service
+- Amazon ECR Repository
+- Application Load Balancer
+- Target Groups
+- Security Groups
+- Route53 Hosted Zone
+- AWS Certificate Manager
+- Amazon RDS
+- IAM Roles
+
+This manual deployment served as a learning exercise before transitioning to Terraform.
+
+Once the entire architecture was understood, every resource was recreated using reusable Terraform modules.
+
+---
+
+# Bootstrap Infrastructure
+
+One important lesson learned during the project was that not every AWS resource should be managed inside the primary Terraform infrastructure.
+
+To keep the project organised, bootstrap resources were separated into their own Terraform configuration.
+
+The bootstrap layer is responsible for creating foundational resources that rarely change but are required before infrastructure deployment.
+
+Examples include:
+
+- GitHub OIDC IAM Role
+- IAM Policies
+- Trust Relationships
+
+Separating these resources avoids dependency issues while making the infrastructure easier to maintain.
+
+---
+
+# Infrastructure as Code
+
+After completing the ClickOps deployment, the infrastructure was recreated using Terraform.
+
+Terraform provides several important advantages over manual deployment:
+
+- Infrastructure is repeatable
+- Resources remain consistent
+- Configuration is version controlled
+- Changes can be reviewed before deployment
+- Infrastructure can be recreated at any time
+
+Rather than configuring AWS resources manually, every component of the deployment is described declaratively using Terraform configuration files.
+
+This approach significantly reduces manual effort while improving consistency and reliability.
+
+---
+
+# Terraform Modules
+
+Instead of placing every resource into one large Terraform file, the infrastructure has been split into reusable modules.
+
+Each module has a single responsibility and can be maintained independently.
+
+The project currently includes dedicated modules for:
+
+## VPC Module
+
+Creates:
+
+- Custom VPC
+- Public subnets
+- Private application subnets
+- Private database subnets
+- Internet Gateway
+- Route Tables
+
+---
+
+## Security Module
+
+Creates all security groups required for:
+
+- Application Load Balancer
+- ECS Tasks
+- Amazon RDS
+
+Following the principle of least privilege ensures each service only communicates with the resources it requires.
+
+---
+
+## ECS Module
+
+Responsible for provisioning:
+
+- ECS Cluster
+- Task Definition
+- ECS Service
+- CloudWatch Logging
+- Container configuration
+
+---
+
+## ECR Module
+
+Creates the Amazon Elastic Container Registry used to store application Docker images.
+
+The GitHub Actions application pipeline automatically pushes images into this repository.
+
+---
+
+## ALB Module
+
+Creates:
+
+- Application Load Balancer
+- HTTPS Listener
+- Target Group
+- Listener Rules
+
+The load balancer acts as the public entry point to the application and securely forwards traffic to ECS.
+
+---
+
+## ACM Module
+
+Automates:
+
+- Certificate request
+- DNS validation
+- HTTPS certificate provisioning
+
+The certificate is issued automatically without requiring manual intervention.
+
+---
+
+## RDS Module
+
+Deploys the managed MySQL database used by Snipe-IT.
+
+Keeping the database separate from the application containers ensures data persists even if ECS tasks are recreated.
+
+---
+
+# Terraform Backend
+
+Terraform state is stored remotely using Amazon S3.
+
+Using a remote backend provides several advantages:
+
+- Prevents state from being stored locally
+- Enables collaboration
+- Improves reliability
+- Protects infrastructure state
+- Supports state locking
+
+This follows Terraform best practices for production environments.
+
+The backend configuration is defined within the infrastructure configuration and automatically used by every Terraform workflow.
+
+> 📸 **Apply Screenshot:** S3 Backend (Optional)
