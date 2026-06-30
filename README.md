@@ -1,3 +1,4 @@
+<img width="1910" height="1072" alt="snipe-it-dashboard-https" src="https://github.com/user-attachments/assets/010aa1b7-0f1a-41c0-83f5-7eabff46ad5f" />
 # Snipe-IT Asset Management Platform on AWS
 
 > A production-style DevOps project demonstrating how a containerised Snipe-IT application can be deployed to AWS using Docker, Terraform, Amazon ECS (Fargate) and GitHub Actions.
@@ -74,7 +75,8 @@ Application URL:
 https://tm.abdimajidcloud.com
 ```
 
-<img width="1872" height="1107" alt="Screenshot 2026-06-30 191241" src="https://github.com/user-attachments/assets/85bfdae3-6154-4842-b635-41c6632746f9" />
+<img width="1910" height="1072" alt="snipe-it-dashboard-https" src="https://github.com/user-attachments/assets/068293e6-49dc-4b5a-8ab9-095fcb9d843c" />
+
 
 
 ---
