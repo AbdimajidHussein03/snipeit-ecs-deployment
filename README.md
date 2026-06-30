@@ -692,8 +692,6 @@ This workflow forms the Continuous Integration (CI) portion of the project.
 ✔ Push Docker Image
 
 ✔ Pipeline Completed Successfully
-
-<img width="1912" height="1073" alt="Screenshot 2026-06-30 191625" src="https://github.com/user-attachments/assets/89355233-b640-47c7-bf72-3c52798c3bfc" />
 <img width="1872" height="1057" alt="Screenshot 2026-06-30 191321" src="https://github.com/user-attachments/assets/ecbcd656-4ceb-4ce9-ae56-e185ff647b07" />
 
 
