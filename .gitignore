@@ -1,15 +1,8 @@
-# Environment files / secrets
-.env
-*.env
+# Laravel
 app/.env
-app/.env*
-!app/.env.example
-
-# Dependencies
+app/.env.*
 app/vendor/
 app/node_modules/
-
-# Laravel runtime files
 app/storage/logs/*
 app/storage/framework/cache/*
 app/storage/framework/sessions/*
@@ -25,7 +18,44 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 
-# OS / editor files
-.DS_Store
-.vscode/
+# Local Terraform files
+infra/current-state.json
+infra/recovered-new-state.json
 infra/terraform.tfvars
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db# Laravel
+app/.env
+app/.env.*
+app/vendor/
+app/node_modules/
+app/storage/logs/*
+app/storage/framework/cache/*
+app/storage/framework/sessions/*
+app/storage/framework/views/*
+
+# Terraform local files/state
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local Terraform files
+infra/current-state.json
+infra/recovered-new-state.json
+infra/terraform.tfvars
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
