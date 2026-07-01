@@ -33,8 +33,8 @@ An Amazon ECS Fargate cluster was configured to host the application without man
 
 
 The cluster was then successfully created.
+<img width="1547" height="952" alt="ecs-fargate cluster" src="https://github.com/user-attachments/assets/49fbb9d8-d3ee-47db-a7ee-8745dd405914" />
 
-![ECS Cluster Created](ClickOps/ecs-fargate%20cluster.png)
 
 ---
 
@@ -42,19 +42,21 @@ The cluster was then successfully created.
 
 An ECS Service was created using the task definition to keep the application running and connect it to the load balancer.
 
-![ECS Service](ClickOps/Screenshot%202026-06-21%20174222.png)
+<img width="1536" height="773" alt="ecs service" src="https://github.com/user-attachments/assets/16478f5c-5904-496c-865b-1338991fc873" />
+
 
 ---
 
 ## 5. Configuring the Application Load Balancer
 
 A Target Group was created so the Application Load Balancer could route traffic to healthy ECS tasks.
+<img width="1882" height="917" alt="Target groups" src="https://github.com/user-attachments/assets/a460bf29-d181-456f-8248-15b18c7edfe3" />
 
-![Target Group](ClickOps/Target%20groups.png)
 
 The Application Load Balancer Security Group was configured to allow HTTP (80) and HTTPS (443) traffic.
 
-![ALB Security Group](ClickOps/Screenshot%202026-06-21%20163111.png)
+<img width="1891" height="912" alt="Screenshot 2026-06-21 161311" src="https://github.com/user-attachments/assets/2dae95d4-86f1-4861-b494-e555f424c621" />
+
 
 ---
 
@@ -62,7 +64,8 @@ The Application Load Balancer Security Group was configured to allow HTTP (80) a
 
 After the infrastructure was deployed, Snipe-IT performed a pre-flight check to verify the application configuration before installation.
 
-![Snipe-IT Pre-flight](ClickOps/Screenshot%202026-06-22%20015941.png)
+<img width="1682" height="1067" alt="verify" src="https://github.com/user-attachments/assets/dda86fc4-fdaa-420e-855a-900187c2c71f" />
+
 
 ---
 
@@ -70,7 +73,8 @@ After the infrastructure was deployed, Snipe-IT performed a pre-flight check to 
 
 Once deployment was complete, the application was accessible securely over HTTPS using the custom domain configured with Route 53 and AWS Certificate Manager (ACM).
 
-![Snipe-IT Dashboard](ClickOps/snipe-it-dashboard-https.png)
+
+<img width="1910" height="1072" alt="snipe-it-dashboard-https" src="https://github.com/user-attachments/assets/cc97f0eb-6662-4216-ac28-9aadaf810dca" />
 
 ---
 
