@@ -292,14 +292,6 @@ The entire infrastructure is deployed automatically using reusable Terraform mod
 
 ---
 
-# Architecture Diagram
-
-> 📸 **Apply Screenshot:** `diagram.png`
-
-The following diagram illustrates the complete AWS architecture used throughout this project.
-
-It demonstrates the interaction between Route53, ACM, the Application Load Balancer, ECS Fargate, Amazon RDS, Terraform, and GitHub Actions.
-
 # Repository Structure
 
 The repository has been organised to separate the application, infrastructure, bootstrap resources and automation workflows into clear, reusable components.
@@ -836,21 +828,6 @@ The entire deployment process can therefore be repeated consistently without man
 ---
 
 
-# Pipeline Evidence
-
-The screenshots below demonstrate successful execution of each workflow.
-
-| Pipeline | Status |
-|----------|--------|
-| Application Build & Push | ✅ Successful |
-| Terraform Plan | ✅ Successful |
-| Terraform Deploy | ✅ Successful |
-| Terraform Destroy | ✅ Successful |
-
-Each workflow completed successfully and formed part of the final deployment process.
-
-> 📸 **Apply Screenshot:** GitHub Actions Workflow Overview
-
 # Security
 
 Security was considered throughout both the infrastructure and deployment process. Rather than focusing solely on deploying the application, several best practices were implemented to reduce risk and improve the overall security of the platform.
@@ -932,17 +909,6 @@ Overcoming these issues helped reinforce many of the concepts learned throughout
 
 ---
 
-## Understanding Terraform State
-
-One of the biggest learning points throughout this project was understanding how Terraform manages infrastructure using state files.
-
-Initially, I underestimated the importance of the Terraform state file until encountering situations where infrastructure and state became inconsistent.
-
-Recovering remote state from Amazon S3 and understanding how Terraform tracks resources provided valuable insight into how Infrastructure as Code operates behind the scenes.
-
-This also reinforced why Terraform state should never be manually edited unless absolutely necessary.
-
----
 
 ## Separating Bootstrap Infrastructure
 
@@ -967,38 +933,6 @@ Although configuring the trust policies took time, the final implementation is s
 
 ---
 
-## Container Deployment
-
-Deploying containers locally with Docker was relatively straightforward.
-
-Deploying the same container to ECS introduced additional considerations including:
-
-- Task definitions
-- IAM roles
-- Security groups
-- Load balancer integration
-- Health checks
-- Container logging
-
-Working through these issues provided a much better understanding of how production container platforms operate.
-
----
-
-## Repository Organisation
-
-As the project grew, keeping the repository organised became increasingly important.
-
-The repository was gradually restructured to separate:
-
-- Application source code
-- Bootstrap resources
-- Infrastructure
-- GitHub workflows
-- ClickOps documentation
-
-This improved maintainability and made the project significantly easier to navigate.
-
----
 
 ## CI/CD Automation
 
@@ -1032,17 +966,6 @@ allowing the application to automatically respond to increased demand.
 
 ---
 
-
-## AWS WAF
-
-Integrate AWS Web Application Firewall to provide protection against common web-based attacks including:
-
-- SQL Injection
-- Cross-Site Scripting (XSS)
-- Malicious IP addresses
-- Rate limiting
-
----
 
 ## AWS Secrets Manager
 
