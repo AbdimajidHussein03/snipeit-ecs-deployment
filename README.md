@@ -747,7 +747,8 @@ Terraform automatically creates:
 After deployment completes successfully, the ECS service automatically pulls the latest Docker image from Amazon ECR before starting the application.
 
 The result is a fully deployed containerised application available over HTTPS.
-<img width="1806" height="741" alt="deploy" src="https://github.com/user-attachments/assets/5eb4e86a-4902-4841-aade-e40a419e4a06" />
+<img width="1901" height="536" alt="deploy2" src="https://github.com/user-attachments/assets/03c69b8d-b8a1-4f14-b364-6d3a472834e2" />
+
 
 
 ### Pipeline Summary
