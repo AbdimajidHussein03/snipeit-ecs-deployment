@@ -417,8 +417,8 @@ This stage confirmed that:
 - Snipe-IT loaded successfully in the browser
 
 Testing locally significantly reduced troubleshooting later during the AWS deployment.
+<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/5155dea0-3ef5-4aea-9208-2472ed6f57dc" />
 
-> 📸 **Apply Screenshot:** Local Snipe-IT running in Docker
 
 ---
 
