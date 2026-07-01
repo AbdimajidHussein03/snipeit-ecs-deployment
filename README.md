@@ -704,8 +704,8 @@ The workflow performs:
 - Terraform Plan
 
 Running a Terraform plan before deployment follows Infrastructure as Code best practices by previewing proposed infrastructure changes before any AWS resources are modified.
+<img width="1887" height="595" alt="plan" src="https://github.com/user-attachments/assets/dd6111c7-7ff0-480d-b579-c6c82ba0b599" />
 
-<img width="1902" height="1115" alt="Screenshot 2026-06-30 191710" src="https://github.com/user-attachments/assets/2e67fcc2-e000-43f3-b207-f7ed6c36dd83" />
 
 ### Pipeline Summary
 
