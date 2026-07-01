@@ -47,7 +47,8 @@ The entire infrastructure is deployed automatically using reusable Terraform mod
 ---
 
 # Architecture Diagram
-<img width="1302" height="697" alt="Screenshot 2026-06-30 194558" src="https://github.com/user-attachments/assets/bbb136e7-a0e2-4d44-8afc-629f7b801dac" />
+<img width="1207" height="615" alt="Screenshot 2026-07-01 133250" src="https://github.com/user-attachments/assets/fda991fa-5842-405e-828d-ab46284c4bce" />
+
 
 
 The following diagram illustrates the complete AWS architecture used throughout this project.
