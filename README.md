@@ -586,7 +586,7 @@ This follows Terraform best practices for production environments.
 
 The backend configuration is defined within the infrastructure configuration and automatically used by every Terraform workflow.
 
-> 📸 **Apply Screenshot:** S3 Backend (Optional)
+
 
 
 # Continuous Integration & Continuous Deployment (CI/CD)
@@ -947,12 +947,6 @@ This was one of the most rewarding aspects of the project.
 # Future Improvements
 
 Although the current implementation satisfies the project requirements, there are several areas that could be improved if development continued.
-
-## Blue/Green Deployments
-
-Implement blue/green deployment strategies to minimise downtime during application releases.
-
----
 
 ## Amazon ECS Auto Scaling
 
