@@ -49,11 +49,6 @@ jobs:
         run: terraform init
         working-directory: infra
 
-<<<<<<< HEAD
-      - name: Terraform destroy
-        run: terraform destroy -auto-approve -lock-timeout=15m
-        working-directory: infra
-=======
       - name: Terraform format check
         run: terraform fmt -check -recursive
         working-directory: infra
@@ -69,4 +64,5 @@ jobs:
       - name: Terraform apply
         run: terraform apply -auto-approve -lock-timeout=15m
         working-directory: infra
->>>>>>> db91a41 (Fix deploy pipeline and improve secure networking)
+
+        
