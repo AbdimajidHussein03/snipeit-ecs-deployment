@@ -28,6 +28,18 @@ variable "db_password" {
   sensitive   = true
 }
 
+variable "db_name" {
+  description = "Database name for the application"
+  type        = string
+  default     = "snipeit"
+}
+
+variable "db_username" {
+  description = "Database username for the application"
+  type        = string
+  default     = "snipeitadmin"
+}
+
 variable "app_key" {
   description = "Laravel APP_KEY for Snipe-IT"
   type        = string

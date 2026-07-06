@@ -3,11 +3,6 @@ variable "project_name" {
   type        = string
 }
 
-variable "public_subnet_ids" {
-  description = "Public subnet IDs where RDS can be placed"
-  type        = list(string)
-}
-
 variable "rds_security_group_id" {
   description = "Security group ID for the RDS database"
   type        = string
@@ -29,4 +24,9 @@ variable "db_password" {
   description = "Master password for the database"
   type        = string
   sensitive   = true
+}
+
+variable "private_subnet_ids" {
+  description = "Private subnet IDs for the RDS subnet group"
+  type        = list(string)
 }

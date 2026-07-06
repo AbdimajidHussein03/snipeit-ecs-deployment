@@ -1,12 +1,10 @@
-# ------------------------------------------------------------
 # Stage 1: Base PHP + Apache image
-# ------------------------------------------------------------
 FROM php:8.3-apache AS php-base
 
-# Laravel apps should be served from the public/ directory
+
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-# Install system packages and PHP extensions required by Snipe-IT
+
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -35,15 +33,15 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Composer from the official Composer image
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
 
-# ------------------------------------------------------------
+
 # Stage 2: Install PHP dependencies with Composer
-# ------------------------------------------------------------
+
 FROM php-base AS vendor
 
 COPY app/ /var/www/html/
@@ -55,9 +53,8 @@ RUN mkdir -p storage/framework/cache \
     && composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 
-# ------------------------------------------------------------
 # Stage 3: Build frontend assets with Node
-# ------------------------------------------------------------
+
 FROM node:20-bookworm-slim AS assets
 
 WORKDIR /app
@@ -71,9 +68,7 @@ COPY app/ ./
 RUN npm run production
 
 
-# ------------------------------------------------------------
 # Stage 4: Final runtime image
-# ------------------------------------------------------------
 FROM php-base AS runtime
 
 COPY app/ /var/www/html/

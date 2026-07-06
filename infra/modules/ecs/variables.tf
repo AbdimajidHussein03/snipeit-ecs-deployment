@@ -45,8 +45,8 @@ variable "app_key" {
   sensitive   = true
 }
 
-variable "public_subnet_ids" {
-  description = "Public subnet IDs where ECS tasks will run"
+variable "private_subnet_ids" {
+  description = "Private subnet IDs where ECS tasks will run"
   type        = list(string)
 }
 
@@ -58,4 +58,33 @@ variable "ecs_security_group_id" {
 variable "target_group_arn" {
   description = "ALB target group ARN for the ECS service"
   type        = string
+}
+
+variable "container_name" {
+  type    = string
+  default = "snipe-it"
+}
+
+variable "container_port" {
+  type    = number
+  default = 80
+}
+
+variable "task_cpu" {
+  type    = string
+  default = "1024"
+}
+
+variable "task_memory" {
+  type    = string
+  default = "3072"
+}
+
+variable "log_retention_days" {
+  type    = number
+  default = 7
+}
+
+variable "aws_region" {
+  type = string
 }

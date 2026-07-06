@@ -31,7 +31,7 @@ module "rds" {
   source = "./modules/rds"
 
   project_name          = var.project_name
-  public_subnet_ids     = module.vpc.public_subnet_ids
+  private_subnet_ids    = module.vpc.private_subnet_ids
   rds_security_group_id = module.security.rds_security_group_id
 
   db_password = var.db_password
@@ -53,20 +53,22 @@ module "ecs" {
   project_name       = var.project_name
   ecr_repository_url = module.ecr.repository_url
 
-  db_host     = module.rds.db_endpoint
-  db_port     = module.rds.db_port
-  db_name     = module.rds.db_name
-  db_username = module.rds.db_username
-  db_password = var.db_password
+  private_subnet_ids = module.vpc.private_subnet_ids
 
-  app_url = "https://${local.app_domain}"
+  ecs_security_group_id = module.security.ecs_security_group_id
+
+  target_group_arn = module.alb.target_group_arn
+
+  app_url = local.app_domain
   app_key = var.app_key
 
-  public_subnet_ids     = module.vpc.public_subnet_ids
-  ecs_security_group_id = module.security.ecs_security_group_id
-  target_group_arn      = module.alb.target_group_arn
+  db_host     = module.rds.db_endpoint
+  db_port     = module.rds.db_port
+  db_name     = var.db_name
+  db_username = var.db_username
+  db_password = var.db_password
 
-  depends_on = [module.alb]
+  aws_region = var.aws_region
 }
 
 module "acm" {
@@ -77,14 +79,11 @@ module "acm" {
   route53_zone_id = data.aws_route53_zone.main.zone_id
 }
 
-resource "aws_route53_record" "app" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = local.app_domain
-  type    = "A"
+module "route53" {
+  source = "./modules/route53"
 
-  alias {
-    name                   = module.alb.alb_dns_name
-    zone_id                = module.alb.alb_zone_id
-    evaluate_target_health = true
-  }
+  zone_id      = data.aws_route53_zone.main.zone_id
+  record_name  = local.app_domain
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id  = module.alb.alb_zone_id
 }

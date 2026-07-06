@@ -10,7 +10,7 @@ resource "aws_ecs_cluster" "main" {
 
 resource "aws_cloudwatch_log_group" "snipe_it" {
   name              = "/ecs/${var.project_name}"
-  retention_in_days = 7
+  retention_in_days = var.log_retention_days
 
   tags = {
     Name    = "/ecs/${var.project_name}"
@@ -48,23 +48,27 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy" {
 }
 
 resource "aws_ecs_task_definition" "snipe_it" {
+
   family                   = "${var.project_name}-task"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "1024"
-  memory                   = "3072"
-  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+
+  cpu    = var.task_cpu
+  memory = var.task_memory
+
+  execution_role_arn = aws_iam_role.ecs_task_execution.arn
 
   container_definitions = jsonencode([
     {
-      name      = "snipe-it"
+
+      name      = var.container_name
       image     = "${var.ecr_repository_url}:latest"
       essential = true
 
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
+          containerPort = var.container_port
+          hostPort      = var.container_port
           protocol      = "tcp"
         }
       ]
@@ -134,9 +138,10 @@ resource "aws_ecs_task_definition" "snipe_it" {
 
       logConfiguration = {
         logDriver = "awslogs"
+
         options = {
           awslogs-group         = aws_cloudwatch_log_group.snipe_it.name
-          awslogs-region        = "eu-west-2"
+          awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
       }
@@ -151,24 +156,28 @@ resource "aws_ecs_task_definition" "snipe_it" {
 }
 
 resource "aws_ecs_service" "snipe_it" {
+
   name            = "${var.project_name}-service"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.snipe_it.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
+
+  desired_count = 1
+  launch_type   = "FARGATE"
 
   health_check_grace_period_seconds = 300
 
   network_configuration {
-    subnets          = var.public_subnet_ids
+
+    subnets          = var.private_subnet_ids
     security_groups  = [var.ecs_security_group_id]
-    assign_public_ip = true
+    assign_public_ip = false
   }
 
   load_balancer {
+
     target_group_arn = var.target_group_arn
-    container_name   = "snipe-it"
-    container_port   = 80
+    container_name   = var.container_name
+    container_port   = var.container_port
   }
 
   tags = {

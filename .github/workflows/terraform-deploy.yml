@@ -1,7 +1,17 @@
-name: Terraform Destroy Pipeline
+name: Terraform Deploy Pipeline
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "infra/**"
+      - ".github/workflows/terraform-deploy.yml"
+
+concurrency:
+  group: terraform-state
+  cancel-in-progress: false
 
 permissions:
   id-token: write
@@ -15,23 +25,48 @@ env:
   TF_VAR_ecr_force_delete: "true"
 
 jobs:
-  terraform-destroy:
+  terraform-deploy:
+    name: Terraform Deploy Infrastructure
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Configure AWS credentials with OIDC
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - uses: hashicorp/setup-terraform@v3
+      - name: Confirm AWS identity
+        run: aws sts get-caller-identity
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
       - name: Terraform init
         run: terraform init
         working-directory: infra
 
+<<<<<<< HEAD
       - name: Terraform destroy
         run: terraform destroy -auto-approve -lock-timeout=15m
         working-directory: infra
+=======
+      - name: Terraform format check
+        run: terraform fmt -check -recursive
+        working-directory: infra
+
+      - name: Terraform validate
+        run: terraform validate
+        working-directory: infra
+
+      - name: Terraform plan
+        run: terraform plan -lock-timeout=15m
+        working-directory: infra
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve -lock-timeout=15m
+        working-directory: infra
+>>>>>>> db91a41 (Fix deploy pipeline and improve secure networking)
