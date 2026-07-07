@@ -12,12 +12,13 @@ The project demonstrates modern Infrastructure as Code (IaC), secure cloud netwo
 
 
 https://tm.abdimajidcloud.com
+<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/30e76f0d-86a0-4e5a-8722-1c4d3a610868" />
 
 ---
 
 # Architecture
 <img width="1096" height="573" alt="Screenshot 2026-07-07 155613" src="https://github.com/user-attachments/assets/1f904ee6-70ae-49a0-80ef-69bd715a40b1" />
-<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/fe41e896-9ab9-4427-b4b9-b73fcb4dc98e" />
+
 
 
 ---
@@ -167,6 +168,7 @@ The project uses four GitHub Actions workflows.
 
 - Builds the Docker image
 - Pushes the image to Amazon ECR
+<img width="1817" height="1023" alt="Screenshot 2026-06-30 204008" src="https://github.com/user-attachments/assets/bbfc9623-d11c-4afb-a7dc-db5b6ea38b51" />
 
 ### Terraform Plan
 
@@ -174,12 +176,16 @@ The project uses four GitHub Actions workflows.
 - Validation
 - TFLint
 - Execution plan
+<img width="1907" height="782" alt="Screenshot 2026-07-06 191835" src="https://github.com/user-attachments/assets/727fa2bf-d964-4ec0-a104-ee79b3042102" />
+
 
 ### Terraform Deploy
 
 - Authenticates using AWS OIDC
 - Initialises Terraform
 - Deploys infrastructure automatically
+<img width="1902" height="797" alt="Screenshot 2026-07-06 192457" src="https://github.com/user-attachments/assets/b24d3d30-ffb8-47fe-985b-a3527b6c324e" />
+
 
 ### Terraform Destroy
 
@@ -349,7 +355,3 @@ These improvements resulted in a more secure, maintainable and production-inspir
 **Abdimajid Hussein**
 
 Computer Science Graduate with a strong interest in Cloud Engineering, DevOps and AWS.
-
-GitHub: https://github.com/AbdimajidHussein03
-
-LinkedIn: *(add your LinkedIn profile here)*
