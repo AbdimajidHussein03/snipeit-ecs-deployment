@@ -172,7 +172,8 @@ The project uses four GitHub Actions workflows.
 
 - Builds the Docker image
 - Pushes the image to Amazon ECR
-<img width="1817" height="1023" alt="Screenshot 2026-06-30 204008" src="https://github.com/user-attachments/assets/bbfc9623-d11c-4afb-a7dc-db5b6ea38b51" />
+<img width="1892" height="857" alt="Screenshot 2026-07-06 192833" src="https://github.com/user-attachments/assets/bc004b85-6834-4821-9936-6b71409a6cd2" />
+
 
 ### Terraform Plan
 
@@ -195,6 +196,7 @@ The project uses four GitHub Actions workflows.
 
 - Safely removes all AWS infrastructure
 - Used for cost management during development
+<img width="1880" height="738" alt="Screenshot 2026-07-06 193711" src="https://github.com/user-attachments/assets/706b5b42-10b8-4185-b20b-ecb614b214ef" />
 
 ---
 
