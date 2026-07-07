@@ -1,135 +1,177 @@
-Snipe-IT on AWS ECS Fargate
+# Snipe-IT on AWS ECS Fargate
 
-A production-inspired DevOps project demonstrating how to containerise, deploy and manage a web application on AWS using Docker, Amazon ECS Fargate, Terraform and GitHub Actions.
+A production-inspired DevOps project demonstrating how to containerise, deploy and manage Snipe-IT on AWS using Docker, Amazon ECS Fargate, Terraform and GitHub Actions.
 
-The project provisions a secure AWS infrastructure using Infrastructure as Code, deploys a custom Docker image to Amazon Elastic Container Registry (ECR), and runs the application on ECS Fargate behind an Application Load Balancer with HTTPS enabled using AWS Certificate Manager.
+The project provisions a secure AWS infrastructure using Infrastructure as Code (Terraform), deploys a custom Docker image to Amazon Elastic Container Registry (ECR), and runs the application on ECS Fargate behind an Application Load Balancer with HTTPS enabled using AWS Certificate Manager.
 
 Infrastructure deployments are fully automated through GitHub Actions using OpenID Connect (OIDC), eliminating the need for long-lived AWS credentials.
 
-Live Application
+---
 
-Application
+# Live Application
+
+**URL**
 
 https://tm.abdimajidcloud.com
-Architecture
 
-Insert your architecture diagram here.
+---
 
+# Architecture
+
+> **Insert your architecture diagram here**
+
+```text
 images/architecture.png
-Project Overview
+```
 
-This project demonstrates a modern containerised deployment on AWS using fully managed services.
+---
 
-The application is packaged into a Docker image, pushed to Amazon Elastic Container Registry (ECR), and deployed onto Amazon ECS Fargate.
+# Project Overview
 
-Traffic enters through Route53 before being securely terminated at an Application Load Balancer using HTTPS certificates issued by AWS Certificate Manager.
+This project demonstrates how to deploy a production-style containerised application on AWS using fully managed services.
 
-The Application Load Balancer distributes traffic across ECS tasks running inside private subnets, while the backend MariaDB database is hosted securely inside Amazon RDS.
+The application is built into a Docker image, pushed to Amazon Elastic Container Registry (ECR), and deployed onto Amazon ECS Fargate.
 
-Terraform provisions the entire infrastructure, whilst GitHub Actions automates planning, deployment and destruction using AWS IAM Roles for GitHub via OpenID Connect.
+Traffic enters through Amazon Route53 before reaching an Application Load Balancer which terminates HTTPS using AWS Certificate Manager.
 
-Features
-Containerised Snipe-IT application using Docker
-Infrastructure provisioned entirely with Terraform
-Amazon ECS Fargate serverless containers
-Application Load Balancer
-HTTPS using AWS Certificate Manager
-Route53 custom domain
-HTTP automatically redirected to HTTPS
-Public and Private subnet architecture
-NAT Gateway for secure outbound internet access
-Amazon RDS MariaDB database
-Amazon Elastic Container Registry (ECR)
-CloudWatch logging
-Remote Terraform state stored in Amazon S3
-Terraform state locking
-GitHub Actions CI/CD
-AWS OpenID Connect authentication (OIDC)
-Least privilege IAM permissions
-Modular Terraform architecture
-AWS Services Used
-Service	Purpose
-Amazon ECS Fargate	Runs the application containers
-Amazon ECR	Stores Docker images
-Amazon RDS	MariaDB database
-Application Load Balancer	Distributes incoming traffic
-Route53	DNS management
-AWS Certificate Manager	HTTPS certificates
-VPC	Network isolation
-Internet Gateway	Public internet connectivity
-NAT Gateway	Secure outbound internet for private resources
-Security Groups	Network firewall rules
-IAM	Authentication and permissions
-CloudWatch	Application logging
-S3	Terraform remote state
-GitHub Actions	CI/CD pipelines
-Infrastructure
+The load balancer securely routes requests to ECS tasks running inside private subnets. The application communicates with an Amazon RDS MariaDB database that is also hosted inside private subnets.
 
-The infrastructure is deployed entirely using Terraform modules.
+Terraform provisions the complete infrastructure while GitHub Actions automates validation, planning, deployment and destruction using AWS IAM Roles for GitHub with OpenID Connect.
 
+---
+
+# Features
+
+- Docker containerised application
+- Infrastructure as Code using Terraform
+- Modular Terraform architecture
+- Amazon ECS Fargate
+- Amazon Elastic Container Registry (ECR)
+- Application Load Balancer
+- HTTPS using AWS Certificate Manager
+- HTTP automatically redirects to HTTPS
+- Route53 custom domain
+- Public and private subnet architecture
+- NAT Gateway for secure outbound internet access
+- Amazon RDS MariaDB database
+- CloudWatch logging
+- Remote Terraform state stored in Amazon S3
+- Terraform state locking
+- GitHub Actions CI/CD
+- AWS OpenID Connect (OIDC) authentication
+- Least privilege IAM permissions
+
+---
+
+# AWS Services Used
+
+| Service | Purpose |
+|----------|----------|
+| Amazon ECS Fargate | Runs the application containers |
+| Amazon ECR | Stores Docker images |
+| Amazon RDS | MariaDB database |
+| Application Load Balancer | Distributes incoming traffic |
+| Amazon Route53 | DNS management |
+| AWS Certificate Manager | HTTPS certificates |
+| Amazon VPC | Network isolation |
+| Internet Gateway | Public internet access |
+| NAT Gateway | Outbound internet access for private resources |
+| Security Groups | Network firewall rules |
+| AWS IAM | Authentication and permissions |
+| Amazon CloudWatch | Logging |
+| Amazon S3 | Terraform remote state |
+| GitHub Actions | Continuous Integration & Continuous Deployment |
+
+---
+
+# Infrastructure
+
+```
 AWS Cloud
 │
-├── VPC
+├── Amazon VPC
 │
 ├── Public Subnets
-│   ├── Application Load Balancer
+│   ├── Internet Gateway
 │   ├── NAT Gateway
-│   └── Internet Gateway
+│   └── Application Load Balancer
 │
 ├── Private Subnets
 │   ├── ECS Fargate Tasks
 │   └── Amazon RDS
 │
-├── Route53
-├── ACM
-├── ECR
-├── CloudWatch
-└── IAM
-Security
+├── Amazon ECR
+├── Amazon Route53
+├── AWS Certificate Manager
+├── Amazon CloudWatch
+└── AWS IAM
+```
 
-The infrastructure follows security best practices throughout.
+---
 
-Networking
-ECS tasks run inside private subnets
-Amazon RDS runs inside private subnets
-Internet Gateway only exposes the Application Load Balancer
-NAT Gateway provides outbound internet access without exposing private resources
-HTTPS
-TLS certificates managed by AWS Certificate Manager
-HTTP automatically redirects to HTTPS
-Secure TLS policy enabled on the Application Load Balancer
-Identity
-GitHub Actions authenticates using AWS OpenID Connect
-No long-lived AWS access keys stored inside GitHub
-Least privilege IAM roles
-Terraform
-Remote state stored in Amazon S3
-State locking enabled
-Infrastructure managed entirely as code
-CI/CD Pipeline
+# Security
 
-The deployment process is fully automated through GitHub Actions.
+## Networking
 
-Terraform Plan
-Terraform format check
-Terraform validation
-TFLint
-Terraform plan
-Terraform Deploy
-Configure AWS credentials using OIDC
-Terraform Apply
-Infrastructure deployment
-Docker Build
-Build Docker image
-Tag Docker image
-Push image to Amazon ECR
-Terraform Destroy
-Safely destroy infrastructure
-Removes AWS resources after testing
-Project Structure
+- ECS tasks run inside private subnets
+- Amazon RDS is deployed inside private subnets
+- Only the Application Load Balancer is publicly accessible
+- NAT Gateway provides outbound internet access without exposing private resources
+
+## HTTPS
+
+- TLS certificates managed by AWS Certificate Manager
+- HTTP automatically redirects to HTTPS
+- Modern TLS security policy enabled
+
+## Identity
+
+- GitHub Actions authenticates using AWS OpenID Connect (OIDC)
+- No AWS access keys stored in GitHub
+- Least privilege IAM permissions
+
+## Infrastructure
+
+- Terraform remote state stored securely in Amazon S3
+- State locking prevents concurrent deployments
+- Infrastructure managed entirely as code
+
+---
+
+# CI/CD Pipelines
+
+## Docker Build & Push
+
+- Builds the Docker image
+- Tags the image
+- Pushes the image to Amazon ECR
+
+## Terraform Plan
+
+- Terraform formatting check
+- Terraform validation
+- TFLint
+- Terraform plan
+
+## Terraform Deploy
+
+- Authenticates using AWS OpenID Connect
+- Initialises Terraform
+- Applies infrastructure changes
+
+## Terraform Destroy
+
+- Safely destroys infrastructure
+- Removes AWS resources when no longer required
+
+---
+
+# Project Structure
+
+```
 .
 ├── app/
-│   ├── application source
+│   ├── application source code
 │   └── Dockerfile
 │
 ├── infra/
@@ -146,6 +188,7 @@ Project Structure
 │   ├── backend.tf
 │   ├── provider.tf
 │   ├── variables.tf
+│   ├── outputs.tf
 │   └── main.tf
 │
 ├── .github/
@@ -156,35 +199,75 @@ Project Structure
 │       └── terraform-destroy.yml
 │
 └── README.md
-Local Development
+```
+
+---
+
+# Local Development
 
 Clone the repository
 
+```bash
 git clone https://github.com/AbdimajidHussein03/snipeit-ecs-deployment.git
+```
 
-Move into the project
+Navigate into the project
 
+```bash
 cd snipeit-ecs-deployment
+```
 
 Build the Docker image
 
+```bash
 docker build -t snipe-it .
+```
 
 Run the container
 
+```bash
 docker run -p 8080:80 snipe-it
-Deployment
+```
 
-Terraform provisions all AWS infrastructure.
+---
 
+# Terraform
+
+Initialise Terraform
+
+```bash
 terraform init
+```
+
+Validate configuration
+
+```bash
+terraform validate
+```
+
+Generate an execution plan
+
+```bash
 terraform plan
+```
+
+Deploy infrastructure
+
+```bash
 terraform apply
+```
 
 Destroy infrastructure
 
+```bash
 terraform destroy
-CI/CD Workflow
+```
+
+---
+
+# Deployment Workflow
+
+```
 Developer
      │
      ▼
@@ -200,50 +283,66 @@ Terraform Deploy
 Build Docker Image
      │
      ▼
-Push Image to Amazon ECR
+Push to Amazon ECR
      │
      ▼
-Deploy Updated ECS Task
+Amazon ECS Fargate
      │
      ▼
-Application Available
-Screenshots
-
-Include screenshots demonstrating:
-
-GitHub Actions pipelines
-ECS Cluster
-ECS Service
-ECS Tasks
-Amazon ECR Repository
 Application Load Balancer
-Target Group
-Route53 Hosted Zone
-AWS Certificate Manager
-CloudWatch Logs
-Running application
-Key Learning Outcomes
+     │
+     ▼
+HTTPS Application
+```
+
+---
+
+# Screenshots
+
+Include screenshots of:
+
+- GitHub Actions pipelines
+- Amazon ECS Cluster
+- Amazon ECS Service
+- Amazon ECS Tasks
+- Amazon ECR Repository
+- Application Load Balancer
+- Target Group
+- Amazon RDS
+- Route53 Hosted Zone
+- AWS Certificate Manager
+- CloudWatch Logs
+- Running Snipe-IT application
+
+---
+
+# Key Learning Outcomes
 
 This project strengthened my practical experience in:
 
-Docker containerisation
-Infrastructure as Code using Terraform
-AWS networking
-ECS Fargate
-Load balancing
-DNS management
-HTTPS implementation
-IAM security
-OpenID Connect authentication
-GitHub Actions CI/CD
-Terraform state management
-Modular infrastructure design
-Future Improvements
-ECS Service Auto Scaling
-Blue/Green deployments
-Multi-environment Terraform workspaces
-AWS Secrets Manager integration
-CloudFront CDN
-AWS WAF
-Automated ECS rolling deployments after Docker image updates
-Monitoring dashboards with Amazon CloudWatch
+- Docker containerisation
+- Infrastructure as Code (Terraform)
+- AWS networking
+- Amazon ECS Fargate
+- Load balancing
+- DNS management
+- HTTPS implementation
+- IAM security
+- GitHub Actions CI/CD
+- OpenID Connect (OIDC)
+- Terraform remote state management
+- Modular infrastructure design
+- Production-inspired AWS architecture
+
+---
+
+# Future Improvements
+
+- ECS Auto Scaling
+- Blue/Green deployments
+- AWS Secrets Manager
+- Multi-environment Terraform workspaces
+- CloudFront CDN
+- AWS WAF
+- Rolling ECS deployments after image updates
+- CloudWatch dashboards and alarms
