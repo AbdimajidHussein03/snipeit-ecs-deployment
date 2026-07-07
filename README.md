@@ -16,7 +16,9 @@ CI/CD is handled through GitHub Actions. Separate workflows are used to build an
 
 
 https://tm.abdimajidcloud.com
-<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/30e76f0d-86a0-4e5a-8722-1c4d3a610868" />
+<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/9b8ab2b6-e652-46ff-ad18-b558af5c8a99" />
+
+
 
 ---
 
