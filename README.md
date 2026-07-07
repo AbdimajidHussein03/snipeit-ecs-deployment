@@ -9,16 +9,16 @@ The project demonstrates modern Infrastructure as Code (IaC), secure cloud netwo
 # Live Demo
 
 **Application**
-<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/1fa2b801-7f7f-4485-9d37-bf2d43969ae7" />
+
 
 https://tm.abdimajidcloud.com
 
 ---
 
 # Architecture
+<img width="1096" height="573" alt="Screenshot 2026-07-07 155613" src="https://github.com/user-attachments/assets/1f904ee6-70ae-49a0-80ef-69bd715a40b1" />
+<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/fe41e896-9ab9-4427-b4b9-b73fcb4dc98e" />
 
-> Replace with your Draw.io architecture diagram.
-<img width="1893" height="1081" alt="local" src="https://github.com/user-attachments/assets/eba1e020-044a-44be-b34e-8853c7218e5e" />
 
 ---
 
