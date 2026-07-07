@@ -1,8 +1,12 @@
 # Snipe-IT on AWS ECS Fargate
 
-A production-inspired DevOps project that deploys the open-source Snipe-IT asset management application to AWS using Docker, Amazon ECS Fargate, Terraform and GitHub Actions.
+A production-inspired DevOps project that deploys the open-source **Snipe-IT asset management application** to AWS using **Docker, Amazon ECS Fargate, Terraform and GitHub Actions**.
 
-The project demonstrates modern Infrastructure as Code (IaC), secure cloud networking, container orchestration and CI/CD automation. The entire AWS environment is provisioned with Terraform, whilst GitHub Actions automates infrastructure validation, deployment and destruction using AWS OpenID Connect (OIDC), removing the need for long-lived AWS credentials.
+Snipe-IT is containerised with a custom Dockerfile, pushed to **Amazon ECR**, and deployed as an ECS Fargate service behind an internet-facing **Application Load Balancer**. The application is served securely over HTTPS using **AWS Certificate Manager**, with DNS managed through **Amazon Route53**.
+
+The infrastructure is built using a modular Terraform design, including a custom VPC, public and private subnets, security groups, ECS, ECR, RDS, ACM, Route53, NAT Gateway and an S3 remote backend with state locking. ECS tasks and the RDS database run in private subnets, while only the load balancer is publicly accessible.
+
+CI/CD is handled through GitHub Actions. Separate workflows are used to build and push the Docker image, validate Terraform changes, deploy infrastructure, and destroy resources when no longer needed. GitHub Actions authenticates to AWS using **OpenID Connect (OIDC)**, avoiding long-lived AWS access keys and following a more secure deployment pattern.
 
 ---
 
